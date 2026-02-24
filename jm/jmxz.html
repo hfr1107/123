@@ -1,0 +1,359 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta http-equiv="Access-Control-Allow-Origin" content="*">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <meta name="description" content="一个默默无闻的主页">
+    <meta name="keywords" content="hfr1107,个人主页">
+    <meta name="author" content="hfr1107">
+    <meta name="theme-color" content="#424242">
+    <title>hfr1107の主页</title>
+    <link rel="stylesheet" href="./css/index-49061b3d.css">
+    <link rel="stylesheet" href="./css/el-input-f8de3737.css">
+    <link rel="stylesheet" href="./css/el-button-01ce30a9.css">
+    <link rel="stylesheet" href="./css/el-message-192a9c59.css">
+    <link rel="stylesheet" href="./css/ua-e756fdb9.css">
+		<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+		
+<script>
+    document.addEventListener('DOMContentLoaded', (event) => {
+        const mergeButton = document.getElementById('mergeButton');
+        const addressInput = document.getElementById('addressInput');
+        const output = document.getElementById('output');
+
+        mergeButton.addEventListener('click', async function() {
+            const proxyAddress = "http://hfr1107.serv00.net/api/box/jm.php?jm="; // 这里的代理地址是示例，请替换为实际地址
+            const userAddress = addressInput.value;
+            let fullAddress = proxyAddress + userAddress;
+
+            try {
+                const response = await fetch(userAddress, { method: 'HEAD' });
+
+                if (!response.ok && response.redirected) {
+                    const redirectedUrl = response.headers.get('Location');
+                    if (redirectedUrl) {
+                        fullAddress = proxyAddress + redirectedUrl;
+                    }
+                }
+
+                const backendResponse = await fetch('get.php', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ fullAddress })
+                });
+
+                if (!backendResponse.ok) {
+                    throw new Error('Backend response was not ok');
+                }
+
+                const data = await backendResponse.text();
+                output.value = data;
+            } catch (error) {
+                console.error('Error:', error);
+            }
+        });
+    });
+</script>
+
+</head>
+
+<body>
+    <div id="app" data-v-app="">
+        <div>
+            <div data-v-8af8c6b8="" class="container" element-loading-text="下载中，莫着急...">
+                <h1 data-v-8af8c6b8="" class="title">TVBOX接口解密</h1>
+                <div data-v-8af8c6b8="" class="row">
+                    <div class="el-autocomplete el-tooltip__trigger el-tooltip__trigger" role="combobox" aria-haspopup="listbox" aria-expanded="false" aria-owns="el-id-8138-1" aria-controls="el-id-8138-0">
+                        <div class="el-input el-input--large el-input-group el-input-group--append el-input--suffix">
+                            <div class="el-input__wrapper" tabindex="-1">
+							<input class="el-input__inner" type="text" autocomplete="off" tabindex="0"  role="textbox" aria-autocomplete="list" aria-controls="id" aria-activedescendant="el-id-8138-1-item--1" id="addressInput" placeholder="可下拉选择">
+                            </div>
+                            <div class="el-input-group__append"><button data-v-8af8c6b8="" aria-disabled="false" type="button" class="el-button is-plain btn_oper" onclick="copyapi()" data-clipboard-text="">
+                                    <span class=""> 复制接口 </span>
+                                </button><button data-v-8af8c6b8="" aria-disabled="false" type="button" id="mergeButton" class="el-button is-plain btn_oper">
+                                    <span class="" > 一键解密 </span>
+                                </button></div>
+                        </div>
+                    </div>
+                </div>
+    <div id="el-popper-container-8138">
+        <div class="el-popper is-pure is-light el-autocomplete__popper" tabindex="-1" aria-hidden="true" role="listbox" id="el-id-8138-0" data-popper-reference-hidden="false" data-popper-escaped="false" data-popper-placement="bottom-start" style="z-index: 2003; position: absolute; inset: 145px auto auto 297px; display: none;">
+            <div class="el-autocomplete-suggestion" role="region" style="outline: none; min-width: 1000px;">
+                <div class="el-scrollbar">
+                    <div class="el-autocomplete-suggestion__wrap el-scrollbar__wrap el-scrollbar__wrap--hidden-default">
+<ul id="el-id-8138-1" class="el-scrollbar__view el-autocomplete-suggestion__list role="listbox" style="">
+</ul>
+                    </div>
+                    <div class="el-scrollbar__bar is-horizontal" style="display: none;">
+                        <div class="el-scrollbar__thumb" style="transform: translateX(0%);"></div>
+                    </div>
+                    <div class="el-scrollbar__bar is-vertical" style="display: none;">
+                        <div class="el-scrollbar__thumb" style="transform: translateY(0%);"></div>
+                    </div>
+                </div>
+            </div><span class="el-popper__arrow" data-popper-arrow="" style="position: absolute; left: 494px;"></span>
+        </div>
+        <div class="el-popper is-light el-popover" tabindex="-1" aria-hidden="true" role="tooltip" id="el-id-8138-2" data-popper-reference-hidden="false" data-popper-escaped="false" data-popper-placement="bottom" style="z-index: 2002; position: absolute; inset: 715px auto auto 856px; width: 250px; display: none;">
+    </div>
+	</div>
+                <div data-v-8af8c6b8="" class="row">
+                    <div data-v-8af8c6b8="" class="el-textarea">
+                        <!-- textarea --><textarea class="el-textarea__inner" tabindex="0" readonly="" autocomplete="off" id="output" style="min-height: 490px; height: 490px;"></textarea>
+                    </div>
+                </div>
+			<div data-v-8af8c6b8="" class="row btn-row" style="text-align: center;"><button data-v-8af8c6b8="" aria-disabled="false" type="button" class="el-button el-button--primary el-button--large" id="copyResult" data-clipboard-text="">
+                        <!--v-if--><span class="" onclick="copyText()"> 复制内容 </span>
+                    </button><button data-v-8af8c6b8="" aria-disabled="false" type="button" class="el-button el-button--success el-button--large">
+                        <!--v-if--><span class="">下载Jar</span>
+                    </button><button data-v-8af8c6b8="" aria-disabled="false" type="button" class="el-button el-button--danger el-button--large el-tooltip__trigger">
+                        <!--v-if--><span class="">下载本地包</span>
+                    </button><button data-v-8af8c6b8="" aria-disabled="false" type="button" class="el-button el-button--warning el-button--large">
+                        <!--v-if--><span class="">主页 <a data-v-8af8c6b8="" href="https://hfr1107.top" class="back"></a></span>
+                    </button>
+			</div>
+            </div>
+        </div>
+
+	</div>
+<script>
+    // 您的JSON数据
+
+    var menuData = [
+  {
+    "url": "http://饭太硬.top/tv",
+    "name": "🚀多多┃饭太硬线路"
+  },
+  {
+    "url": "http://肥猫.live",
+    "name": "🚀多多┃肥猫线路"
+  },
+  {
+    "url": "https://jihulab.com/okcaptain/kko/-/raw/main/tv.txt",
+    "name": "🚀多多┃OK线路"
+  },
+  {
+    "url": "http://152.32.170.60/leevi/PiG/raw/branch/master/jsm.json",
+    "name": "🚀多多┃PG线路"
+  },
+  {
+    "url": "https://pastebin.com/raw/5NHaxyGR",
+    "name": "🚀多多┃道长线路"
+  },
+  {
+    "url": "https://ghproxy.net/https://raw.githubusercontent.com/xyq254245/xyqonlinerule/main/XYQTVBox.json",
+    "name": "🚀多多┃香雅情线路"
+  },
+  {
+    "url": "http://tvbox.王二小放牛娃.xyz",
+    "name": "🚀多多┃放牛线路"
+  },
+  {
+    "url": "http://xhww.fun/小米/DEMO.json",
+    "name": "🚀多多┃小米线路"
+  },
+  {
+    "url": "https://100km.top/0",
+    "name": "🚀多多┃Ray线路"
+  },
+  {
+    "url": "http://home.jundie.top:81/top98.json",
+    "name": "🚀多多┃俊佬线路"
+  },
+  {
+    "url": "https://raw.liucn.cc/box/m.json",
+    "name": "🚀多多┃老刘备线路"
+  },
+  {
+    "url": "http://rihou.cc:88/荷城茶秀",
+    "name": "🚀多多┃荷城线路"
+  },
+  {
+    "url": "http://152.32.170.60/Yoursmile7/TVBox/raw/branch/master/XC.json",
+    "name": "🐹多多┃南风线路"
+  },
+  {
+    "url": "http://rihou.vip:55/天天开心",
+    "name": "🐹多多┃开心线路"
+  },
+  {
+    "url": "https://download.kstore.space/download/2883/nzk/nzk0722.json",
+    "name": "🐹多多┃D佬魔改"
+  },
+  {
+    "url": "https://gh.con.sh/https://raw.githubusercontent.com/guot55/yg/main/ygbox.json",
+    "name": "🐹多多┃月光线路"
+  },
+  {
+    "url": "http://o.nxog.top/m/111.php?ou=公众号欧歌app&mz=index&jar=index&123&b=欧歌",
+    "name": "🐹多多┃欧歌线路"
+  },
+  {
+    "url": "http://52pan.top:81/api/v3/file/get/174964/%E5%90%BE%E7%88%B1%E8%AF%84%E6%B5%8B.m3u?sign=rPssLoffquDXszCARt6UNF8MobSa1FA27XomzOluJBY%3D%3A0",
+    "name": "🐹多多┃吾爱线路"
+  },
+  {
+    "url": "https://gitee.com/dongchenys/liu/raw/master/hc.json",
+    "name": "🐹多多┃东辰线路"
+  },
+  {
+    "url": "http://8.210.232.168/xc.json",
+    "name": "🐹多多┃星辰线路"
+  },
+  {
+    "url": "http://www.liuyunw.com:88/img",
+    "name": "🐹多多┃神仙线路"
+  },
+  {
+    "url": "https://notabug.org/qizhen15800/My9394/raw/master/%e4%b8%8d%e8%89%af%e5%b8%85.json",
+    "name": "💎多多┃不良帅线路"
+  },
+  {
+    "url": "https://jxjson.icu/balabala",
+    "name": "💎多多┃巴拉线路"
+  },
+  {
+    "url": "http://meowtv.cn/tv",
+    "name": "💎多多┃喵影视线路"
+  },
+  {
+    "url": "https://www.macms.pro/box/3.json",
+    "name": "💎多多┃万达线路"
+  },
+  {
+    "url": "http://xiaohu.xzam.cn/xiaohu",
+    "name": "💎多多┃小胡线路"
+  },
+  {
+    "url": "https://szyyds.cn/tv/x.json",
+    "name": "💎多多┃小马线路"
+  },
+  {
+    "url": "https://tv.lan2wan.top/candymuj.json",
+    "name": "💎多多┃看电影线路"
+  },
+  {
+    "url": "http://我不是.摸鱼儿.top",
+    "name": "💎多多┃摸鱼线路"
+  },
+  {
+    "url": "http://47.108.190.141/yydf/yydf/bd/yydf.json",
+    "name": "🏄️多多┃业余线路"
+  },
+  {
+    "url": "https://codeberg.org/Xym/ymz/raw/branch/main/夜猫子",
+    "name": "🏄️多多┃夜猫子线路"
+  },
+  {
+    "url": "http://sinopacifichk.com/box/56.txt",
+    "name": "🏄️多多┃太平洋线路"
+  },
+  {
+    "url": "https://ghproxy.net/https://raw.githubusercontent.com/gaotianliuyun/gao/master/js.json",
+    "name": "🏄️多多┃高天流云"
+  },
+  {
+    "url": "https://ghproxy.com/https://raw.githubusercontent.com/2hacc/TVBox/main/tvbox.json",
+    "name": "🏄️多多┃二哈线路"
+  },
+  {
+    "url": "http://cdn.qiaoji8.com/tvbox.json",
+    "name": "🏄️多多┃巧技线路"
+  },
+  {
+    "url": "http://www.wya6.cn/tv/yc.json",
+    "name": "🏄️多多┃无意线路"
+  }
+];
+
+    // 获取ul元素
+    var ulElement = document.getElementById('el-id-8138-1');
+
+    // 清空ul元素中的所有li子元素
+    while (ulElement.firstChild) {
+        ulElement.removeChild(ulElement.firstChild);
+    } 
+        for (var i = 0; i < menuData.length; i++) {
+        var liElement = document.createElement('li');
+        liElement.id = '' + (i + 1);
+        liElement.role = 'option';
+        liElement.setAttribute('aria-selected', 'false');
+        
+        var nameSpan = document.createElement('span');
+        nameSpan.id = 'name' + (i + 1);
+        nameSpan.textContent = menuData[i].name + ':';
+        
+        var urlSpan = document.createElement('span');
+        urlSpan.id = 'url' + (i + 1);
+        urlSpan.textContent = menuData[i].url;
+        
+        // 将span元素添加到li元素中
+        liElement.appendChild(nameSpan);
+        liElement.appendChild(urlSpan);
+        
+        // 将新的li元素添加到ulElement的末尾
+        ulElement.appendChild(liElement);
+    }
+</script>	
+<script>
+const addressInput = document.getElementById('addressInput');
+const suggestionsList = document.getElementById('el-id-8138-0');
+const output = document.getElementById('output');
+suggestionsList.style.display = 'none';
+addressInput.addEventListener('click', function() {
+suggestionsList.style.display = 'block';
+const inputRect = output.getBoundingClientRect();
+suggestionsList.style.top = `${inputRect.top}px`;
+suggestionsList.style.left = `${inputRect.left}px`;
+suggestionsList.style.width = `${inputRect.width}px`;
+suggestionsList.style.height = `${inputRect.height}px`;
+});
+// 当点击suggestionsList、output或addressInput之外的区域时隐藏建议列表
+document.addEventListener('click', function(event) {
+    const clickedElement = event.target;
+    if (
+        clickedElement !== addressInput &&
+        clickedElement !== suggestionsList &&
+        !suggestionsList.contains(clickedElement) &&
+        clickedElement !== output &&
+        !output.contains(clickedElement)
+    ) {
+        suggestionsList.style.display = 'none';
+    }
+});
+const listItems = suggestionsList.getElementsByTagName('li');
+for (let i = 0; i < listItems.length; i++) {
+listItems[i].addEventListener('click', function() {
+const urlSpan = this.querySelector('span[id^="url"]');
+if (urlSpan) {
+addressInput.value = urlSpan.textContent;
+suggestionsList.style.display = 'none';
+}
+});
+}
+</script>
+	    <script> 
+        function copyText() {
+          var copyText = document.getElementById("output");
+          copyText.select();
+          copyText.setSelectionRange(0, 99999);
+          document.execCommand("copy");
+         copyText.setSelectionRange(0, 0);
+          alert("解密完成！");
+        }
+		function copyapi() {
+          var copyText = document.getElementById("addressInput");
+          copyText.select();
+          copyText.setSelectionRange(0, 99999);
+          document.execCommand("copy");
+         copyText.setSelectionRange(0, 0);
+          alert("接口复制成功！");
+        }
+    </script>
+
+</body>
+
+</html>
