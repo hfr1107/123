@@ -1,0 +1,172 @@
+name: 分卷压缩包合并解压
+
+on:
+  workflow_dispatch:
+    inputs:
+      source_repo:
+        description: '分卷文件所在仓库（格式：owner/repo）'
+        required: true
+        default: 'hfr1107/temp'
+      source_folder:
+        description: '分卷文件所在文件夹路径'
+        required: true
+        default: 'app'
+      target_repo:
+        description: '解压目标仓库（格式：owner/repo）'
+        required: true
+        default: 'hfr1107/app'
+      target_folder:
+        description: '解压目标文件夹路径'
+        required: true
+        default: 'appt'
+      first_part_pattern:
+        description: '第一个分卷文件的匹配模式（如 *.zip.001 或 *.part1.rar）'
+        required: true
+        default: '*.part1.rar'
+
+jobs:
+  merge-and-extract:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - name: 检出目标仓库
+        uses: actions/checkout@v4
+        with:
+          repository: ${{ github.event.inputs.target_repo }}
+          path: target-repo
+          token: ${{ secrets.HTV_TOKEN }}
+
+      - name: 检出源仓库
+        uses: actions/checkout@v4
+        with:
+          repository: ${{ github.event.inputs.source_repo }}
+          path: source-repo
+          token: ${{ secrets.HTV_TOKEN }}
+
+      - name: 安装解压工具
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y p7zip-full unrar unzip
+          echo "已安装 7z、unrar、unzip"
+
+      - name: 解压分卷文件
+        id: extract
+        run: |
+          # 使用基于 GITHUB_WORKSPACE 的绝对路径
+          SOURCE_PATH="$GITHUB_WORKSPACE/source-repo/${{ github.event.inputs.source_folder }}"
+          TARGET_PATH="$GITHUB_WORKSPACE/target-repo/${{ github.event.inputs.target_folder }}"
+          
+          echo "当前工作目录: $(pwd)"
+          echo "源路径: $SOURCE_PATH"
+          echo "目标路径: $TARGET_PATH"
+          
+          if [ ! -d "$SOURCE_PATH" ]; then
+            echo "错误：源文件夹不存在: $SOURCE_PATH"
+            exit 1
+          fi
+          
+          # 创建目标文件夹（确保存在）
+          mkdir -p "$TARGET_PATH"
+          
+          # 进入源文件夹查找分卷文件
+          cd "$SOURCE_PATH"
+          echo "进入源文件夹: $(pwd)"
+          echo "源文件夹内容："
+          ls -la
+          
+          # 查找第一个分卷文件（忽略大小写）
+          FIRST_PART=$(find . -type f -iname "${{ github.event.inputs.first_part_pattern }}" -print -quit | sed 's|^\./||')
+          
+          if [ -z "$FIRST_PART" ]; then
+            echo "错误：在 $SOURCE_PATH 中未找到匹配模式 ${{ github.event.inputs.first_part_pattern }} 的文件"
+            echo "当前目录下的所有文件："
+            find . -type f | head -20  # 显示前20个文件供参考
+            exit 1
+          fi
+          
+          echo "找到第一个分卷: $FIRST_PART"
+          echo "开始解压到: $TARGET_PATH"
+          
+          # 尝试用 7z 解压（支持大多数格式）
+          set +e  # 临时关闭错误退出，以便捕获失败信息
+          7z x "$FIRST_PART" -o"$TARGET_PATH" -y
+          EXIT_CODE=$?
+          set -e
+          
+          if [ $EXIT_CODE -eq 0 ]; then
+            echo "✅ 7z 解压成功"
+          else
+            echo "⚠️ 7z 解压失败（退出码: $EXIT_CODE），尝试其他方法..."
+            # 如果是 RAR 分卷，尝试 unrar
+            if [[ "$FIRST_PART" == *.part1.rar ]] || [[ "$FIRST_PART" == *.rar ]]; then
+              echo "使用 unrar 解压..."
+              unrar x "$FIRST_PART" "$TARGET_PATH/"
+            else
+              echo "错误：不支持的压缩格式或文件损坏"
+              exit 1
+            fi
+          fi
+          
+          echo "解压操作完成。目标目录内容："
+          ls -la "$TARGET_PATH" || echo "目标目录为空"
+          
+          # 设置输出变量，供后续步骤使用
+          echo "extract_success=true" >> $GITHUB_OUTPUT
+
+      - name: 验证解压结果
+        if: steps.extract.outputs.extract_success == 'true'
+        run: |
+          TARGET_PATH="$GITHUB_WORKSPACE/target-repo/${{ github.event.inputs.target_folder }}"
+          if [ -z "$(ls -A "$TARGET_PATH" 2>/dev/null)" ]; then
+            echo "⚠️ 警告：目标目录为空，可能没有文件被解压"
+            echo "请检查："
+            echo "  - 分卷文件是否完整"
+            echo "  - 解压命令的输出日志"
+            exit 1  # 可选的，如果希望失败则取消注释
+          else
+            echo "✅ 目标目录非空，包含以下文件："
+            ls -la "$TARGET_PATH"
+          fi
+
+      - name: 配置 Git 用户
+        run: |
+          cd target-repo
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+
+      - name: 提交并推送变更
+        run: |
+          cd target-repo
+          
+          echo "当前 Git 状态："
+          git status --porcelain
+          git status
+          
+          if [ -n "$(git status --porcelain)" ]; then
+            git add -A
+            git commit -m "自动解压分卷文件: ${{ github.event.inputs.source_folder }} -> ${{ github.event.inputs.target_folder }}
+            
+            源仓库: ${{ github.event.inputs.source_repo }}
+            分卷模式: ${{ github.event.inputs.first_part_pattern }}
+            触发时间: $(date -u '+%Y-%m-%d %H:%M:%S UTC')"
+            
+            git push
+            echo "✅ 已推送变更到目标仓库"
+          else
+            echo "ℹ️ 没有文件变更，无需推送"
+            # 二次确认目标目录是否有文件但 Git 未检测到
+            TARGET_PATH="${{ github.event.inputs.target_folder }}"
+            if [ -d "$TARGET_PATH" ] && [ -n "$(ls -A "$TARGET_PATH")" ]; then
+              echo "⚠️ 注意：目标目录存在文件，但 Git 未检测到变更。"
+              echo "可能原因：文件内容与已提交版本完全相同，或文件被 .gitignore 忽略"
+              echo "当前 .gitignore 内容（如果存在）："
+              cat .gitignore 2>/dev/null || echo "无 .gitignore 文件"
+            fi
+          fi
+
+      - name: 清理临时文件
+        if: always()
+        run: |
+          rm -rf source-repo target-repo
+          echo "临时文件已清理"
