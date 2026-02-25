@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="zh-CN"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><meta http-equiv="Access-Control-Allow-Origin" content="*"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="description" content="一个默默无闻的主页"><meta name="keywords" content="hfr1107,个人主页"><meta name="author" content="hfr1107"><meta name="theme-color" content="#424242"><title>hfr1107の主页</title><link rel="icon" href="images/icon/favicon.ico"><link rel="stylesheet" href="css/index-49061b3d.css"><link rel="stylesheet" href="css/el-input-f8de3737.css"><link rel="stylesheet" href="css/el-button-01ce30a9.css"><link rel="stylesheet" href="css/el-tag-856368e3.css"><link rel="stylesheet" href="css/el-table-column-be1751ac.css"><link rel="stylesheet" href="css/el-message-192a9c59.css"><link rel="stylesheet" href="css/index-a55d02fc.css"><link rel="modulepreload" as="script" crossorigin="" href="js/index-daa560a8.js"><link rel="modulepreload" as="script" crossorigin="" href="js/index-daa560a8.js"><link rel="modulepreload" as="script" crossorigin="" href="js/el-input-95efcb8a.js"><link rel="modulepreload" as="script" crossorigin="" href="js/el-table-column-0e9acbeb.js"><link rel="modulepreload" as="script" crossorigin="" href="js/el-button-bccd4ef3.js"><link rel="modulepreload" as="script" crossorigin="" href="js/el-tag-a5129c52.js"><link rel="modulepreload" as="script" crossorigin="" href="js/el-tooltip-4ed993c7.js"><link rel="modulepreload" as="script" crossorigin="" href="js/tvbox-0bc483ce.js"><link rel="modulepreload" as="script" crossorigin="" href="js/el-message-13e14cb4.js"><script type="module" crossorigin="" src="css/index-181eb08d.js"></script><style type="text/css">#_copy{align-items:center;background:#4494D5;border-radius:3px;color:#fff;cursor:pointer;display:flex;font-size:13px;height:30px;justify-content:center;position:absolute;width:60px;z-index:1000}#select-tooltip,#sfModal,.modal-backdrop,div[id^=reader-helper]{display:none!important}.modal-open{overflow:auto!important}._sf_adjust_body{padding-right:0!important}</style><script src="https://unpkg.com/vue@2.6.14/dist/vue.js"></script></head><body><div id="app" data-v-app=""><div><div data-v-1ead9c03=""><main data-v-1ead9c03="" class="el-main"><div data-v-1ead9c03="" class="level"><h3 data-v-1ead9c03=""><span data-v-1ead9c03="">单线路地址</span></h3><div data-v-1ead9c03="" class="el-table--fit el-table--enable-row-hover el-table--enable-row-transition el-table el-table--layout-fixed is-scrolling-none" data-prefix="el" style="width: 100%;"><div class="el-table__inner-wrapper"><div class="hidden-columns"><div data-v-1ead9c03=""></div><div data-v-1ead9c03=""></div><div data-v-1ead9c03=""></div></div><div class="el-table__header-wrapper"><table class="el-table__header" border="0" cellpadding="0" cellspacing="0" style="width: 1548px;"><colgroup><col name="el-table_1_column_1" width="128"><col name="el-table_1_column_2" width="1180"><col name="el-table_1_column_3" width="240"></colgroup><thead class=""><tr class=""><th class="el-table_1_column_1 column-width is-leaf el-table__cell" colspan="1" rowspan="1"><div class="cell">名称<!----><!----></div></th><th class="el-table_1_column_2 is-leaf el-table__cell" colspan="1" rowspan="1"><div class="cell">URL<!----><!----></div></th><th class="el-table_1_column_3 is-leaf el-table__cell" colspan="1" rowspan="1"><div class="cell">操作<!----><!----></div></th></tr></thead></table></div><div class="el-table__body-wrapper"><div class="el-scrollbar"><div class="el-scrollbar__wrap el-scrollbar__wrap--hidden-default"><div class="el-scrollbar__view" style="display: inline-block; vertical-align: middle;"><table class="el-table__body" cellspacing="0" cellpadding="0" border="0" style="table-layout: fixed; width: 1548px;"><colgroup><col name="el-table_1_column_1" width="128"><col name="el-table_1_column_2" width="1180"><col name="el-table_1_column_3" width="240"></colgroup>
+<tr v-for="(item, index) in menuData" :key="index">
+      <td class="el-table_1_column_1 el-table__cell" rowspan="1" colspan="1">
+        <div class="cell">{{ item.name }}</div>
+      </td>
+      <td class="el-table_1_column_2 el-table__cell" rowspan="1" colspan="1">
+        <div class="cell">
+          <div class="el-input">
+            <div class="el-input__wrapper" tabindex="-1">
+              <input class="el-input__inner" type="text" :value="item.url" readonly>
+</div></div></div></td><td class="el-table_1_column_3 el-table__cell" rowspan="1" colspan="1"><div class="cell"><button data-v-1ead9c03="" aria-disabled="false" type="button" class="el-button el-button--primary" @click="copyValue(item.url)"><span class="">复制</span></button><button data-v-1ead9c03="" aria-disabled="false" type="button" class="el-button el-button--warning" @click="redirectToProxy(item.url)"><span class="">解析</span></button><button data-v-1ead9c03="" aria-disabled="false" type="button" class="el-button el-button--success" @click="redirectToUrl(item.url)"><span class="">跳转</span></button></div></td></tr>
+  </table>
+</div>
+
+</div></div><div class="el-scrollbar__bar is-horizontal" style="display: none;"><div class="el-scrollbar__thumb" style="transform: translateX(0%);"></div></div><div class="el-scrollbar__bar is-vertical" style="display: none;"><div class="el-scrollbar__thumb" style="transform: translateY(0%);"></div></div></div></div></div><div class="el-table__column-resize-proxy" style="display: none;"></div></div></div></main></div></div></div></body></html>
+
+<script>
+var app = new Vue({
+  el: '#app',
+  data: {
+    menuData: [
+  {
+    "url": "http://饭太硬.top/tv",
+    "name": "🚀多多┃饭太硬线路"
+  },
+  {
+    "url": "http://肥猫.live",
+    "name": "🚀多多┃肥猫线路"
+  },
+  {
+    "url": "https://jihulab.com/okcaptain/kko/-/raw/main/tv.txt",
+    "name": "🚀多多┃OK线路"
+  },
+  {
+    "url": "http://152.32.170.60/leevi/PiG/raw/branch/master/jsm.json",
+    "name": "🚀多多┃PG线路"
+  },
+  {
+    "url": "https://pastebin.com/raw/5NHaxyGR",
+    "name": "🚀多多┃道长线路"
+  },
+  {
+    "url": "https://ghproxy.net/https://raw.githubusercontent.com/xyq254245/xyqonlinerule/main/XYQTVBox.json",
+    "name": "🚀多多┃香雅情线路"
+  },
+  {
+    "url": "http://tvbox.王二小放牛娃.xyz",
+    "name": "🚀多多┃放牛线路"
+  },
+  {
+    "url": "http://xhww.fun/小米/DEMO.json",
+    "name": "🚀多多┃小米线路"
+  },
+  {
+    "url": "https://100km.top/0",
+    "name": "🚀多多┃Ray线路"
+  },
+  {
+    "url": "http://home.jundie.top:81/top98.json",
+    "name": "🚀多多┃俊佬线路"
+  },
+  {
+    "url": "https://raw.liucn.cc/box/m.json",
+    "name": "🚀多多┃老刘备线路"
+  },
+  {
+    "url": "http://rihou.cc:88/荷城茶秀",
+    "name": "🚀多多┃荷城线路"
+  },
+  {
+    "url": "http://152.32.170.60/Yoursmile7/TVBox/raw/branch/master/XC.json",
+    "name": "🐹多多┃南风线路"
+  },
+  {
+    "url": "http://rihou.vip:55/天天开心",
+    "name": "🐹多多┃开心线路"
+  },
+  {
+    "url": "https://download.kstore.space/download/2883/nzk/nzk0722.json",
+    "name": "🐹多多┃D佬魔改"
+  },
+  {
+    "url": "https://gh.con.sh/https://raw.githubusercontent.com/guot55/yg/main/ygbox.json",
+    "name": "🐹多多┃月光线路"
+  },
+  {
+    "url": "http://o.nxog.top/m/111.php?ou=公众号欧歌app&mz=index&jar=index&123&b=欧歌",
+    "name": "🐹多多┃欧歌线路"
+  },
+  {
+    "url": "http://52pan.top:81/api/v3/file/get/174964/%E5%90%BE%E7%88%B1%E8%AF%84%E6%B5%8B.m3u?sign=rPssLoffquDXszCARt6UNF8MobSa1FA27XomzOluJBY%3D%3A0",
+    "name": "🐹多多┃吾爱线路"
+  },
+  {
+    "url": "https://gitee.com/dongchenys/liu/raw/master/hc.json",
+    "name": "🐹多多┃东辰线路"
+  },
+  {
+    "url": "http://8.210.232.168/xc.json",
+    "name": "🐹多多┃星辰线路"
+  },
+  {
+    "url": "http://www.liuyunw.com:88/img",
+    "name": "🐹多多┃神仙线路"
+  },
+  {
+    "url": "https://notabug.org/qizhen15800/My9394/raw/master/%e4%b8%8d%e8%89%af%e5%b8%85.json",
+    "name": "💎多多┃不良帅线路"
+  },
+  {
+    "url": "https://jxjson.icu/balabala",
+    "name": "💎多多┃巴拉线路"
+  },
+  {
+    "url": "http://meowtv.cn/tv",
+    "name": "💎多多┃喵影视线路"
+  },
+  {
+    "url": "https://www.macms.pro/box/3.json",
+    "name": "💎多多┃万达线路"
+  },
+  {
+    "url": "http://xiaohu.xzam.cn/xiaohu",
+    "name": "💎多多┃小胡线路"
+  },
+  {
+    "url": "https://szyyds.cn/tv/x.json",
+    "name": "💎多多┃小马线路"
+  },
+  {
+    "url": "https://tv.lan2wan.top/candymuj.json",
+    "name": "💎多多┃看电影线路"
+  },
+  {
+    "url": "http://我不是.摸鱼儿.top",
+    "name": "💎多多┃摸鱼线路"
+  },
+  {
+    "url": "http://47.108.190.141/yydf/yydf/bd/yydf.json",
+    "name": "🏄️多多┃业余线路"
+  },
+  {
+    "url": "https://codeberg.org/Xym/ymz/raw/branch/main/夜猫子",
+    "name": "🏄️多多┃夜猫子线路"
+  },
+  {
+    "url": "http://sinopacifichk.com/box/56.txt",
+    "name": "🏄️多多┃太平洋线路"
+  },
+  {
+    "url": "https://ghproxy.net/https://raw.githubusercontent.com/gaotianliuyun/gao/master/js.json",
+    "name": "🏄️多多┃高天流云"
+  },
+  {
+    "url": "https://ghproxy.com/https://raw.githubusercontent.com/2hacc/TVBox/main/tvbox.json",
+    "name": "🏄️多多┃二哈线路"
+  },
+  {
+    "url": "http://cdn.qiaoji8.com/tvbox.json",
+    "name": "🏄️多多┃巧技线路"
+  },
+  {
+    "url": "http://www.wya6.cn/tv/yc.json",
+    "name": "🏄️多多┃无意线路"
+  }
+]
+  },
+  methods: {
+    copyValue(value) {
+      // 实现复制功能
+      navigator.clipboard.writeText(value).then(() => {
+        alert('已复制到剪贴板！');
+      }).catch(err => {
+        alert('复制失败：', err);
+      });
+    },
+    redirectToProxy(value) {
+      // 假设代理地址是固定的，这里用 'https://hfr1107.serv00.net/api/box/jm.php?jm=' 代替
+      var proxyUrl = 'https://hfr1107.serv00.net/api/box/jm.php?jm=';
+      window.location.href = proxyUrl  + value;
+    },
+    redirectToUrl(value) {
+      // 直接跳转到给定URL
+      window.location.href = value;
+    }
+  }
+});
+</script>
+
+</body>
+</html>
+
+
+
+
+
