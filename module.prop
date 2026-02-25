@@ -1,0 +1,6 @@
+id=zygisk_lsposed
+name=Zygisk - LSPosed
+version=v1.10.1 (7162)
+versionCode=7162
+author=Jing Matrix & @酷安-内涵TV小涛
+description=Xpose框架-支持安卓8.1 ~ 15=去日志-去特征版-去dex2ota。

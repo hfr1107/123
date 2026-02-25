@@ -1,0 +1,15 @@
+dir=${0%/*}
+tmpLspdApk="/data/local/tmp/daemon.apk"
+
+if [ -r $tmpLspdApk ]; then
+  java_options="-Djava.class.path=$tmpLspdApk"
+else
+  java_options="-Djava.class.path=$dir/daemon.apk"
+fi
+
+if [ ! -S "/dev/socket/zygote" ]; then
+  echo "错误：未找到 zygote 套接字"
+  exit 1
+fi
+
+exec /system/bin/app_process $java_options /system/bin --nice-name=lspd org.lsposed.lspd.Main "$@" >/dev/null 2>&1
