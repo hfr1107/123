@@ -1,0 +1,76 @@
+﻿2026-02-12T08:58:08.2404516Z ##[group]Run actions/checkout@v4
+2026-02-12T08:58:08.2405745Z with:
+2026-02-12T08:58:08.2406392Z   fetch-depth: 0
+2026-02-12T08:58:08.2407523Z   token: ***
+2026-02-12T08:58:08.2408214Z   repository: hfr1107/HTV
+2026-02-12T08:58:08.2409027Z   ssh-strict: true
+2026-02-12T08:58:08.2409719Z   ssh-user: git
+2026-02-12T08:58:08.2410434Z   persist-credentials: true
+2026-02-12T08:58:08.2411235Z   clean: true
+2026-02-12T08:58:08.2412122Z   sparse-checkout-cone-mode: true
+2026-02-12T08:58:08.2413006Z   fetch-tags: false
+2026-02-12T08:58:08.2413726Z   show-progress: true
+2026-02-12T08:58:08.2414458Z   lfs: false
+2026-02-12T08:58:08.2415197Z   submodules: false
+2026-02-12T08:58:08.2416126Z   set-safe-directory: true
+2026-02-12T08:58:08.2417240Z ##[endgroup]
+2026-02-12T08:58:08.3499459Z Syncing repository: hfr1107/HTV
+2026-02-12T08:58:08.3502455Z ##[group]Getting Git version info
+2026-02-12T08:58:08.3503648Z Working directory is '/home/runner/work/HTV/HTV'
+2026-02-12T08:58:08.3505622Z [command]/usr/bin/git version
+2026-02-12T08:58:08.3541346Z git version 2.52.0
+2026-02-12T08:58:08.3570458Z ##[endgroup]
+2026-02-12T08:58:08.3586156Z Temporarily overriding HOME='/home/runner/work/_temp/71c00cff-8f6a-4001-9458-6be3fac87c32' before making global git config changes
+2026-02-12T08:58:08.3592055Z Adding repository directory to the temporary git global config as a safe directory
+2026-02-12T08:58:08.3597870Z [command]/usr/bin/git config --global --add safe.directory /home/runner/work/HTV/HTV
+2026-02-12T08:58:08.3649019Z Deleting the contents of '/home/runner/work/HTV/HTV'
+2026-02-12T08:58:08.3655493Z ##[group]Initializing the repository
+2026-02-12T08:58:08.3660962Z [command]/usr/bin/git init /home/runner/work/HTV/HTV
+2026-02-12T08:58:08.3732944Z hint: Using 'master' as the name for the initial branch. This default branch name
+2026-02-12T08:58:08.3738046Z hint: will change to "main" in Git 3.0. To configure the initial branch name
+2026-02-12T08:58:08.3741503Z hint: to use in all of your new repositories, which will suppress this warning,
+2026-02-12T08:58:08.3745030Z hint: call:
+2026-02-12T08:58:08.3746145Z hint:
+2026-02-12T08:58:08.3747486Z hint: 	git config --global init.defaultBranch <name>
+2026-02-12T08:58:08.3749135Z hint:
+2026-02-12T08:58:08.3750752Z hint: Names commonly chosen instead of 'master' are 'main', 'trunk' and
+2026-02-12T08:58:08.3755057Z hint: 'development'. The just-created branch can be renamed via this command:
+2026-02-12T08:58:08.3757230Z hint:
+2026-02-12T08:58:08.3758252Z hint: 	git branch -m <name>
+2026-02-12T08:58:08.3759433Z hint:
+2026-02-12T08:58:08.3760934Z hint: Disable this message with "git config set advice.defaultBranchName false"
+2026-02-12T08:58:08.3763941Z Initialized empty Git repository in /home/runner/work/HTV/HTV/.git/
+2026-02-12T08:58:08.3768232Z [command]/usr/bin/git remote add origin https://github.com/hfr1107/HTV
+2026-02-12T08:58:08.3790676Z ##[endgroup]
+2026-02-12T08:58:08.3794167Z ##[group]Disabling automatic garbage collection
+2026-02-12T08:58:08.3796065Z [command]/usr/bin/git config --local gc.auto 0
+2026-02-12T08:58:08.3824052Z ##[endgroup]
+2026-02-12T08:58:08.3825946Z ##[group]Setting up auth
+2026-02-12T08:58:08.3830478Z [command]/usr/bin/git config --local --name-only --get-regexp core\.sshCommand
+2026-02-12T08:58:08.3860488Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :"
+2026-02-12T08:58:08.4133251Z [command]/usr/bin/git config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+2026-02-12T08:58:08.4166265Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :"
+2026-02-12T08:58:08.4349214Z [command]/usr/bin/git config --local --name-only --get-regexp ^includeIf\.gitdir:
+2026-02-12T08:58:08.4381212Z [command]/usr/bin/git submodule foreach --recursive git config --local --show-origin --name-only --get-regexp remote.origin.url
+2026-02-12T08:58:08.4573420Z [command]/usr/bin/git config --local http.https://github.com/.extraheader AUTHORIZATION: basic ***
+2026-02-12T08:58:08.4605261Z ##[endgroup]
+2026-02-12T08:58:08.4607865Z ##[group]Fetching the repository
+2026-02-12T08:58:08.4616817Z [command]/usr/bin/git -c protocol.version=2 fetch --prune --no-recurse-submodules origin +refs/heads/*:refs/remotes/origin/* +refs/tags/*:refs/tags/*
+2026-02-12T08:58:10.6756577Z From https://github.com/hfr1107/HTV
+2026-02-12T08:58:10.6757358Z  * [new branch]      main       -> origin/main
+2026-02-12T08:58:10.6806255Z [command]/usr/bin/git branch --list --remote origin/main
+2026-02-12T08:58:10.6842387Z   origin/main
+2026-02-12T08:58:10.6844133Z [command]/usr/bin/git rev-parse refs/remotes/origin/main
+2026-02-12T08:58:10.6867089Z 08a75b9ed20a00a9a7ee0ea58465d5d3aa8c392b
+2026-02-12T08:58:10.6873116Z ##[endgroup]
+2026-02-12T08:58:10.6876149Z ##[group]Determining the checkout info
+2026-02-12T08:58:10.6882496Z ##[endgroup]
+2026-02-12T08:58:10.6900130Z [command]/usr/bin/git sparse-checkout disable
+2026-02-12T08:58:10.6942375Z [command]/usr/bin/git config --local --unset-all extensions.worktreeConfig
+2026-02-12T08:58:10.6966577Z ##[group]Checking out the ref
+2026-02-12T08:58:10.6970329Z [command]/usr/bin/git checkout --progress --force -B main refs/remotes/origin/main
+2026-02-12T08:58:10.7307004Z Switched to a new branch 'main'
+2026-02-12T08:58:10.7309176Z branch 'main' set up to track 'origin/main'.
+2026-02-12T08:58:10.7319566Z ##[endgroup]
+2026-02-12T08:58:10.7354497Z [command]/usr/bin/git log -1 --format=%H
+2026-02-12T08:58:10.7374744Z 08a75b9ed20a00a9a7ee0ea58465d5d3aa8c392b
